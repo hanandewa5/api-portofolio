@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cool = require("cool-ascii-faces");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 const db = require("./queries");
 
 app.use(bodyParser.json());
@@ -19,6 +20,8 @@ app.get("/users/:id", db.getUserById);
 app.post("/users", db.createUser);
 app.put("/users/:id", db.updateUser);
 app.delete("/users/:id", db.deleteUser);
+
+app.get("/cool", (req, res) => res.send(cool()));
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);
