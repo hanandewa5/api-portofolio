@@ -6,7 +6,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 const userDB = require("./services/userServices");
 const portoDB = require("./services/portofolioServices");
+const cors = require('cors');
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
