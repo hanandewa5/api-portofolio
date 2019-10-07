@@ -1,9 +1,11 @@
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const cool = require("cool-ascii-faces");
 const app = express();
 const port = process.env.PORT || 5000;
-const db = require("./queries");
+const userDB = require("./services/userServices");
+const portoDB = require("./services/portofolioServices");
 
 app.use(bodyParser.json());
 app.use(
@@ -15,13 +17,24 @@ app.get("/", (request, response) => {
     response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
-app.get("/users", db.getUsers);
-app.get("/users/:id", db.getUserById);
-app.post("/users", db.createUser);
-app.put("/users/:id", db.updateUser);
-app.delete("/users/:id", db.deleteUser);
+// USERS
+app.get("/users", userDB.getUsers);
+app.get("/users/:id", userDB.getUserById);
+app.post("/users", userDB.createUser);
+app.put("/users/:id", userDB.updateUser);
+app.delete("/users/:id", userDB.deleteUser);
 
-app.get("/cool", (req, res) => res.send(cool()));
+// ? PORTOFOLIO
+app.get("/portofolio", portoDB.getPortofolio);
+app.get("/portofolio/:id", portoDB.getPortofolioById);
+app.post("/portofolio", portoDB.createPortofolio);
+app.put("/portofolio/:id", portoDB.updatePortofolio);
+app.delete("/portofolio/:id", portoDB.deletePortofolio);
+
+app.get("/cool", (req, res) => {
+    console.log('us',process.env.PORT);
+    return res.send(cool());
+});
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);

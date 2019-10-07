@@ -1,11 +1,4 @@
-const Pool = require("pg").Pool;
-const pool = new Pool({
-    user: "eddhosbjgopqyo",
-    host: "ec2-54-235-104-136.compute-1.amazonaws.com",
-    database: "d2gbkt6352dvcn",
-    password: "e1d98241ee4bd13090628018afac6bbb1ff401c20694c03171adb43764d71bd9",
-    port: 5432
-});
+const pool = require("../constants/connectConstants").pool;
 
 const getUsers = (request, response) => {
     pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
