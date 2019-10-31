@@ -3,11 +3,16 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cool = require("cool-ascii-faces");
 const app = express();
+
 const port = process.env.PORT || 5000;
-const userDB = require("./services/userServices");
-const portoDB = require("./services/portofolioServices");
+
 const cors = require("cors");
 const path = require('path');
+
+// ? Services
+const userDB = require("./services/userServices");
+const portoDB = require("./services/portofolioServices");
+const authDB = require("./services/authService");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,6 +27,9 @@ app.get("/", (request, response) => {
 
 // ? Untuk ambil file dari folder public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ? Authentication
+app.post("/auth/login", authDB.login);
 
 
 // USERS
