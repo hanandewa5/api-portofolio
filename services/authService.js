@@ -25,7 +25,7 @@ const callbackSuccess = (data,pesan) =>{
     return {
         error : false,
         pesan,
-        data,
+        data : data[0],
         status : 200
     };
 }
