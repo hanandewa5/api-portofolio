@@ -1,5 +1,5 @@
 const pool = require("../constants/connectConstants").pool;
-const md5 = require('md5');
+const md5 = require("md5");
 
 const login = (request, response) => {
     const { email, password } = request.body;
@@ -11,32 +11,42 @@ const login = (request, response) => {
             if (error) {
                 throw error;
             }
-            
-            if(results.rowCount > 0){
-                response.status(200).json(callbackSuccess(results.rows,"Login successfully"));
+            if (results.rowCount > 0) {
+                console.log(
+                    "results",
+                    callbackSuccess(results.rows, "Login successfully")
+                );
+                response
+                    .status(200)
+                    .json(callbackSuccess(results.rows, "Login successfully"));
             } else {
-                response.status(400).json(callbackFail("Username or Password not match"));
+                response
+                    .status(400)
+                    .json(callbackFail("Username or Password not match"));
             }
         }
     );
 };
 
-const callbackSuccess = (data,pesan) =>{
+const callbackSuccess = (data, msg) => {
     return {
-        error : false,
-        pesan,
-        data : data[0],
-        status : 200
+        msg,
+        data: {
+            token: "token"
+        },
+        code: 200
     };
-}
+};
 
-const callbackFail = (pesan) =>{
+const callbackFail = msg => {
     return {
-        error : true,
-        pesan,
-        status : 500
+        msg,
+        data: {
+            token: ""
+        },
+        code: 400
     };
-}
+};
 
 module.exports = {
     login
